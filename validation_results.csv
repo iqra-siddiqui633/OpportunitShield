@@ -1,0 +1,31 @@
+id,category,type,expected,actual,correct,risk_score,critical_flags
+G01,Internship,Genuine,PROCEED,PROCEED,True,0,
+G02,Job,Genuine,PROCEED,PROCEED,True,0,
+G03,Scholarship,Genuine,PROCEED,PROCEED,True,0,
+G04,Internship,Genuine,PROCEED,PROCEED,True,1,
+G05,Job,Genuine,PROCEED,PROCEED,True,0,
+G06,Scholarship,Genuine,PROCEED,PROCEED,True,0,
+G07,Internship,Genuine,PROCEED,PROCEED,True,0,
+G08,Job,Genuine,PROCEED,PROCEED,True,0,
+G09,Scholarship,Genuine,PROCEED,PROCEED,True,2,
+G10,Internship,Genuine,PROCEED,PROCEED,True,0,
+G11,Job,Genuine,PROCEED,PROCEED,True,0,
+F01,Internship,Fraudulent,AVOID,AVOID,True,21,"major_contradiction, otp_or_password"
+F02,Job,Fraudulent,AVOID,AVOID,True,21,"major_contradiction, otp_or_password"
+F03,Scholarship,Fraudulent,AVOID,AVOID,True,21,"card_credentials, major_contradiction"
+F04,Internship,Fraudulent,AVOID,AVOID,True,18,"card_credentials, major_contradiction, otp_or_password"
+F05,Job,Fraudulent,AVOID,AVOID,True,21,"major_contradiction, otp_or_password"
+F06,Scholarship,Fraudulent,AVOID,AVOID,True,20,"card_credentials, major_contradiction, otp_or_password"
+F07,Internship,Fraudulent,AVOID,AVOID,True,17,"major_contradiction, otp_or_password"
+F08,Job,Fraudulent,AVOID,AVOID,True,21,"card_credentials, major_contradiction"
+F09,Scholarship,Fraudulent,AVOID,AVOID,True,18,"major_contradiction, otp_or_password"
+F10,Internship,Fraudulent,AVOID,AVOID,True,21,"card_credentials, major_contradiction"
+F11,Job,Fraudulent,AVOID,AVOID,True,21,"major_contradiction, otp_or_password"
+A01,Internship,Ambiguous,VERIFY,VERIFY,True,8,
+A02,Job,Ambiguous,VERIFY,VERIFY,True,4,
+A03,Scholarship,Ambiguous,VERIFY,VERIFY,True,7,
+A04,Internship,Ambiguous,VERIFY,VERIFY,True,4,
+A05,Job,Ambiguous,VERIFY,VERIFY,True,4,
+A06,Scholarship,Ambiguous,VERIFY,VERIFY,True,4,
+A07,Internship,Ambiguous,VERIFY,VERIFY,True,5,
+A08,Job,Ambiguous,VERIFY,VERIFY,True,4,

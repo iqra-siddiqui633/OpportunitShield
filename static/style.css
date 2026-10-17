@@ -1,0 +1,1518 @@
+/* =========================================================
+   OPPORTUNITYSHIELD
+   Consolidated Judge Dashboard Styles
+========================================================= */
+
+:root {
+    --bg: #080b12;
+    --surface: #10151f;
+    --surface-light: #161d29;
+    --surface-soft: rgba(255, 255, 255, 0.025);
+
+    --border: #263142;
+    --border-soft: rgba(255, 255, 255, 0.08);
+
+    --text: #f3f6fb;
+    --muted: #9aa6b8;
+
+    --blue: #4da3ff;
+    --blue-dark: #1d4f91;
+
+    --green: #35d07f;
+    --yellow: #f4c95d;
+    --red: #ff5c67;
+    --orange: #ff9f68;
+
+    --shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(45, 111, 180, 0.15),
+            transparent 35%
+        ),
+        var(--bg);
+
+    color: var(--text);
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header {
+    padding: 38px 20px 30px;
+
+    text-align: center;
+
+    border-bottom: 1px solid var(--border);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(20, 35, 55, 0.7),
+            rgba(8, 11, 18, 0)
+        );
+}
+
+header h1 {
+    margin: 0;
+
+    font-size: clamp(2rem, 5vw, 3rem);
+
+    font-weight: 700;
+
+    letter-spacing: -1px;
+}
+
+header p {
+    margin: 8px 0 0;
+
+    color: var(--muted);
+
+    font-size: 1rem;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+main {
+    width: min(1180px, 94%);
+
+    margin: 30px auto 70px;
+}
+
+
+/* =========================================================
+   GENERAL SECTIONS
+========================================================= */
+
+main > section {
+    margin-bottom: 22px;
+
+    padding: 28px;
+
+    background: rgba(16, 21, 31, 0.94);
+
+    border: 1px solid var(--border);
+
+    border-radius: 18px;
+
+    box-shadow: var(--shadow);
+}
+
+section h2 {
+    margin-top: 0;
+
+    font-size: 1.7rem;
+}
+
+section h3 {
+    color: var(--text);
+
+    font-size: 1.1rem;
+}
+
+section p {
+    color: var(--muted);
+}
+
+
+/* =========================================================
+   INPUT FORM
+========================================================= */
+
+label {
+    display: block;
+
+    margin-top: 20px;
+    margin-bottom: 8px;
+
+    color: #dce4ef;
+
+    font-weight: 600;
+}
+
+label span {
+    color: var(--muted);
+
+    font-size: 0.85rem;
+
+    font-weight: normal;
+}
+
+textarea,
+input,
+select {
+    width: 100%;
+
+    padding: 14px 16px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    background: #0b1018;
+
+    color: var(--text);
+
+    font-size: 0.95rem;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+textarea {
+    min-height: 220px;
+
+    resize: vertical;
+
+    font-family: inherit;
+}
+
+textarea:focus,
+input:focus,
+select:focus {
+    border-color: var(--blue);
+
+    background: #0d141e;
+
+    box-shadow:
+        0 0 0 3px rgba(77, 163, 255, 0.12);
+}
+
+select {
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   ANALYZE BUTTON
+========================================================= */
+
+#analyzeButton {
+    display: block;
+
+    width: 100%;
+
+    margin-top: 28px;
+
+    padding: 15px 20px;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2678c9,
+            #3d9af0
+        );
+
+    color: white;
+
+    font-size: 1rem;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+}
+
+#analyzeButton:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 25px rgba(45, 140, 230, 0.3);
+}
+
+#analyzeButton:active {
+    transform: translateY(0);
+}
+
+#analyzeButton:disabled {
+    opacity: 0.55;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+#loading {
+    text-align: center;
+}
+
+#loading h3 {
+    margin-top: 0;
+
+    color: var(--blue);
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+#errorBox {
+    border-color: rgba(255, 92, 103, 0.5);
+
+    background:
+        rgba(120, 20, 30, 0.18);
+}
+
+#errorBox h3 {
+    margin-top: 0;
+
+    color: var(--red);
+}
+
+#errorMessage {
+    color: #ffb6bb;
+}
+
+
+/* =========================================================
+   RESULT HEADER
+========================================================= */
+
+.result-header {
+    margin-bottom: 18px;
+}
+
+.result-header h2 {
+    margin-bottom: 4px;
+}
+
+.result-subtitle {
+    margin: 0;
+
+    color: var(--muted);
+}
+
+
+/* =========================================================
+   JUDGE DASHBOARD
+========================================================= */
+
+.judge-dashboard {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(0, 1fr);
+
+    gap: 20px;
+
+    align-items: start;
+
+    margin-top: 18px;
+}
+
+.dashboard-column {
+    min-width: 0;
+}
+
+
+/* =========================================================
+   DASHBOARD CARDS
+========================================================= */
+
+.dashboard-card {
+    min-width: 0;
+
+    margin-bottom: 18px;
+
+    padding: 20px;
+
+    border:
+        1px solid var(--border-soft);
+
+    border-radius: 14px;
+
+    background:
+        var(--surface-soft);
+}
+
+.dashboard-card:last-child {
+    margin-bottom: 0;
+}
+
+.dashboard-card > h3 {
+    margin-top: 0;
+
+    margin-bottom: 14px;
+}
+
+
+/* =========================================================
+   ASSESSMENT
+========================================================= */
+
+.assessment-card {
+    min-height: 150px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(77, 163, 255, 0.08),
+            rgba(255, 255, 255, 0.025)
+        );
+}
+
+.assessment-card #recommendation {
+    margin: 0 0 8px;
+
+    font-size: 1.8rem;
+
+    font-weight: 800;
+}
+
+.assessment-score {
+    font-size: 1rem;
+
+    color: var(--muted);
+}
+
+.assessment-score strong {
+    color: var(--blue);
+
+    font-size: 1.35rem;
+}
+
+.decision-description {
+    max-width: 520px;
+
+    margin-bottom: 0;
+
+    color: var(--muted);
+
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   CRITICAL INDICATORS
+========================================================= */
+
+#criticalBox {
+    border:
+        1px solid rgba(255, 92, 103, 0.35);
+
+    border-left:
+        4px solid var(--red);
+
+    background:
+        rgba(255, 92, 103, 0.07);
+}
+
+#criticalBox h3 {
+    margin-top: 0;
+
+    color: var(--red);
+}
+
+#criticalIndicators {
+    margin: 0;
+
+    padding-left: 20px;
+}
+
+#criticalIndicators li {
+    margin: 7px 0;
+
+    color: #ffb6bb;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   DECISION BASIS
+========================================================= */
+
+#decisionBasis {
+    min-width: 0;
+}
+
+.basis-summary {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
+}
+
+.basis-item {
+    min-width: 0;
+
+    padding: 13px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.07);
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 255, 255, 0.035);
+}
+
+.basis-item strong {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 0.9rem;
+}
+
+.basis-item span {
+    display: block;
+
+    color: var(--muted);
+
+    font-size: 0.88rem;
+
+    line-height: 1.45;
+}
+
+
+/* =========================================================
+   EVIDENCE CHAIN
+========================================================= */
+
+.evidence-chain-container {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 0;
+}
+
+.chain-node {
+    padding: 13px 15px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.10);
+
+    border-left:
+        3px solid rgba(255, 255, 255, 0.20);
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 255, 255, 0.035);
+
+    text-align: center;
+}
+
+.chain-title {
+    margin-bottom: 4px;
+
+    font-size: 0.9rem;
+
+    font-weight: 700;
+}
+
+.chain-status {
+    font-size: 0.82rem;
+}
+
+.chain-arrow {
+    height: 15px;
+
+    padding: 0;
+
+    color: #718096;
+
+    text-align: center;
+
+    line-height: 15px;
+}
+
+
+/* =========================================================
+   STATUS COLORS
+========================================================= */
+
+.status-supported {
+    color: var(--green);
+
+    font-weight: 700;
+}
+
+.status-unverified {
+    color: var(--yellow);
+
+    font-weight: 700;
+}
+
+.status-contradicted {
+    color: var(--red);
+
+    font-weight: 700;
+}
+
+.status-neutral {
+    color: var(--muted);
+
+    font-weight: 600;
+}
+
+.status-risk {
+    color: var(--orange);
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   EVIDENCE VERIFICATION
+========================================================= */
+
+.verification-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
+
+    margin-top: 0;
+}
+
+.evidence-card {
+    min-width: 0;
+
+    padding: 14px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 255, 255, 0.035);
+}
+
+.evidence-card h4 {
+    margin: 0 0 7px;
+
+    font-size: 0.9rem;
+}
+
+.evidence-card div {
+    font-size: 0.82rem;
+
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   WHY THIS RESULT
+========================================================= */
+
+#whyResult {
+    min-width: 0;
+}
+
+.finding {
+    display: flex;
+
+    gap: 10px;
+
+    align-items: flex-start;
+
+    padding: 12px;
+
+    margin-bottom: 8px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.07);
+
+    border-radius: 9px;
+
+    background:
+        rgba(255, 255, 255, 0.035);
+}
+
+.finding:last-child {
+    margin-bottom: 0;
+}
+
+.finding-icon {
+    min-width: 20px;
+
+    font-size: 0.95rem;
+}
+
+.finding-text {
+    min-width: 0;
+
+    line-height: 1.4;
+
+    font-size: 0.9rem;
+}
+
+.finding-text small {
+    color: #9eabb7;
+}
+
+
+/* =========================================================
+   RISK PROFILE
+========================================================= */
+
+.compact-risk-profile {
+    margin: 0;
+}
+
+.risk-profile-item {
+    margin-bottom: 14px;
+}
+
+.risk-profile-item:last-child {
+    margin-bottom: 0;
+}
+
+.risk-profile-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-bottom: 6px;
+
+    font-size: 0.84rem;
+}
+
+.risk-profile-header strong {
+    color: var(--muted);
+}
+
+.risk-bar {
+    width: 100%;
+
+    height: 8px;
+
+    overflow: hidden;
+
+    border-radius: 20px;
+
+    background:
+        rgba(255, 255, 255, 0.10);
+}
+
+.risk-bar-fill {
+    height: 100%;
+
+    width: 0;
+
+    border-radius: 20px;
+
+    transition:
+        width 0.5s ease,
+        background-color 0.3s ease;
+}
+
+
+/* =========================================================
+   EXTRACTED EVIDENCE
+========================================================= */
+
+#extractedEvidence {
+    margin: 0;
+}
+
+.extracted-box {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+}
+
+.extracted-item {
+    min-width: 0;
+
+    padding: 13px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.07);
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 255, 255, 0.035);
+}
+
+.extracted-item strong {
+    display: block;
+
+    margin-bottom: 6px;
+}
+
+.extracted-item ul {
+    margin: 0;
+
+    padding-left: 20px;
+
+    overflow-wrap: anywhere;
+}
+
+.extracted-item li {
+    color: #cbd5e1;
+
+    font-size: 0.85rem;
+}
+
+
+/* =========================================================
+   VERIFICATION PATHWAY
+========================================================= */
+
+.compact-pathway {
+    margin: 0;
+}
+
+.pathway-card {
+    padding: 14px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.07);
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 255, 255, 0.025);
+}
+
+.pathway-card ol {
+    margin: 0;
+
+    padding-left: 21px;
+}
+
+.pathway-card li {
+    margin-bottom: 9px;
+
+    color: #d2d9e3;
+
+    font-size: 0.88rem;
+
+    line-height: 1.45;
+}
+
+.pathway-card li:last-child {
+    margin-bottom: 0;
+}
+
+.pathway-empty {
+    margin: 0;
+
+    color: var(--muted);
+}
+
+
+/* =========================================================
+   TECHNICAL ANALYSIS
+========================================================= */
+
+.technical-report {
+    margin-bottom: 0;
+}
+
+.technical-report details {
+    overflow: hidden;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 10px;
+
+    background:
+        #080d14;
+}
+
+.technical-report summary {
+    padding: 14px;
+
+    cursor: pointer;
+
+    color: #cbd5e1;
+
+    font-size: 0.9rem;
+
+    font-weight: 700;
+}
+
+.technical-report pre {
+    margin: 0;
+
+    padding: 15px;
+
+    max-height: 420px;
+
+    overflow: auto;
+
+    white-space: pre-wrap;
+
+    word-break: break-word;
+
+    border-top:
+        1px solid rgba(255, 255, 255, 0.07);
+
+    color: #aeb9c8;
+
+    font-family:
+        "Cascadia Code",
+        "Consolas",
+        monospace;
+
+    font-size: 0.78rem;
+
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   HIDE EMPTY RESULT CONTAINERS
+========================================================= */
+
+#decisionBasis:empty,
+#evidenceChain:empty,
+#verificationSummary:empty,
+#whyResult:empty,
+#riskProfile:empty,
+#verificationPathway:empty {
+    display: none;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .judge-dashboard {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 650px) {
+
+    main {
+        width: 94%;
+    }
+
+    main > section {
+        padding: 20px;
+    }
+
+    .basis-summary,
+    .verification-grid,
+    .extracted-box {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    main > section {
+        padding: 16px;
+    }
+
+    header {
+        padding: 30px 15px 25px;
+    }
+
+    textarea {
+        min-height: 180px;
+    }
+
+    .assessment-card #recommendation {
+        font-size: 1.55rem;
+    }
+
+}
+
+/* =========================================================
+   FINAL MOBILE POLISH
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    main {
+        width: 100%;
+        max-width: none;
+        box-sizing: border-box;
+        padding: 10px;
+    }
+
+    main > section {
+        width: 100%;
+        max-width: none;
+        box-sizing: border-box;
+        margin-left: 0;
+        margin-right: 0;
+        padding: 14px;
+    }
+
+    .result-header {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .judge-dashboard {
+        width: 100%;
+    }
+
+    .dashboard-column {
+        width: 100%;
+    }
+
+    .dashboard-card {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Make mobile text easier to read */
+    .dashboard-card p,
+    .dashboard-card li,
+    .chain-status,
+    .finding,
+    .pathway-card {
+        line-height: 1.5;
+    }
+
+    /* Prevent long URLs/emails from breaking the layout */
+    .extracted-item,
+    .extracted-item *,
+    .technical-report pre {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+}
+
+/* =========================================================
+   QUICK DEMO CASES
+   ========================================================= */
+
+.quick-demo {
+    margin-top: 18px;
+    padding: 18px;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid #263446;
+    border-radius: 14px;
+}
+
+.quick-demo-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.quick-demo-header span {
+    font-size: 15px;
+    font-weight: 700;
+    color: #e8edf5;
+}
+
+.quick-demo-header small {
+    color: #8f9caf;
+    font-size: 12px;
+}
+
+.demo-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.demo-btn {
+    min-height: 44px;
+    padding: 10px 12px;
+
+    border: 1px solid #2b394c;
+    border-radius: 10px;
+
+    background: #111923;
+    color: #dfe7f2;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+
+    cursor: pointer;
+    transition:
+        transform 0.15s ease,
+        border-color 0.15s ease,
+        background 0.15s ease;
+}
+
+.demo-btn:hover {
+    transform: translateY(-1px);
+    background: #172231;
+}
+
+.demo-btn:active {
+    transform: translateY(0);
+}
+
+.demo-genuine:hover {
+    border-color: #4ade80;
+}
+
+.demo-ambiguous:hover {
+    border-color: #f59e0b;
+}
+
+.demo-fraud:hover {
+    border-color: #ef4444;
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+
+    .quick-demo-header {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .demo-buttons {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+/* IMAGE UPLOAD */
+
+.image-upload-section {
+    margin-top: 16px;
+    padding: 16px;
+    border: 1px solid #263446;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.image-upload-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.image-upload-header span {
+    font-size: 14px;
+    font-weight: 700;
+    color: #e8edf5;
+}
+
+.image-upload-header small {
+    color: #8f9caf;
+    font-size: 11px;
+}
+
+.upload-dropzone {
+    min-height: 85px;
+    border: 1px dashed #3a4a60;
+    border-radius: 12px;
+    background: #111923;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: border-color 0.2s ease,
+                background 0.2s ease;
+    text-align: center;
+}
+
+.upload-dropzone:hover {
+    border-color: #3892F6;
+    background: #151f2c;
+}
+
+.upload-icon {
+    font-size: 22px;
+}
+
+.upload-dropzone strong {
+    color: #dfe7f2;
+    font-size: 13px;
+}
+
+.upload-dropzone small {
+    color: #7f8da1;
+    font-size: 11px;
+}
+
+.image-preview {
+    margin-top: 12px;
+    padding: 10px;
+    border: 1px solid #263446;
+    border-radius: 10px;
+    background: #111923;
+    align-items: center;
+    gap: 12px;
+}
+
+.image-preview img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #334155;
+}
+
+.image-preview-info {
+    min-width: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.image-preview-info strong {
+    color: #dfe7f2;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.image-preview-info button {
+    align-self: flex-start;
+    border: 1px solid #374151;
+    background: #1a2431;
+    color: #aeb9c8;
+    border-radius: 7px;
+    padding: 5px 9px;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.image-preview-info button:hover {
+    border-color: #ef4444;
+    color: #fca5a5;
+}
+
+.ocr-status {
+    margin-top: 10px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+
+/* ============================================================
+   EVIDENCE CHAIN — VISUAL PATHWAY
+============================================================ */
+
+.evidence-chain-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+
+/* Individual evidence node */
+
+.chain-node {
+    position: relative;
+
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    grid-template-rows: auto auto;
+
+    column-gap: 10px;
+
+    padding: 15px 16px;
+
+    background: #1b232d;
+
+    border: 1px solid #334155;
+    border-left: 3px solid #64748b;
+
+    border-radius: 12px;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease;
+}
+
+
+/* Status-specific node accents */
+
+.chain-node.status-supported {
+    border-left-color: #22c55e;
+}
+
+.chain-node.status-unverified {
+    border-left-color: #f59e0b;
+    border-style: dashed;
+    border-left-style: solid;
+}
+
+.chain-node.status-contradicted {
+    border-left-color: #ef4444;
+}
+
+.chain-node.status-risk {
+    border-left-color: #f59e0b;
+}
+
+
+/* Status icon */
+
+.chain-status-icon {
+    grid-row: 1 / span 2;
+
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-size: 12px;
+    font-weight: 800;
+
+    background: #26313d;
+    color: #94a3b8;
+
+    margin-top: 1px;
+}
+
+
+/* Icon colours */
+
+.chain-node.status-supported .chain-status-icon {
+    background: rgba(34, 197, 94, 0.12);
+    color: #4ade80;
+}
+
+.chain-node.status-unverified .chain-status-icon,
+.chain-node.status-risk .chain-status-icon {
+    background: rgba(245, 158, 11, 0.12);
+    color: #fbbf24;
+}
+
+.chain-node.status-contradicted .chain-status-icon {
+    background: rgba(239, 68, 68, 0.12);
+    color: #f87171;
+}
+
+
+/* Node title */
+
+.chain-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #e8edf5;
+    line-height: 1.3;
+}
+
+
+/* Status pill */
+
+.chain-status {
+    justify-self: start;
+
+    margin-top: 7px;
+
+    padding: 4px 9px;
+
+    border-radius: 999px;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    line-height: 1.3;
+
+    border: 1px solid transparent;
+}
+
+
+/* Supported */
+
+.chain-status.status-supported {
+    color: #4ade80;
+    background: rgba(34, 197, 94, 0.10);
+    border-color: rgba(34, 197, 94, 0.20);
+}
+
+
+/* Unverified */
+
+.chain-status.status-unverified {
+    color: #fbbf24;
+    background: rgba(245, 158, 11, 0.10);
+    border-color: rgba(245, 158, 11, 0.22);
+}
+
+
+/* Contradicted */
+
+.chain-status.status-contradicted {
+    color: #f87171;
+    background: rgba(239, 68, 68, 0.10);
+    border-color: rgba(239, 68, 68, 0.22);
+}
+
+
+/* Risk */
+
+.chain-status.status-risk {
+    color: #fbbf24;
+    background: rgba(245, 158, 11, 0.10);
+    border-color: rgba(245, 158, 11, 0.22);
+}
+
+
+/* Neutral */
+
+.chain-status.status-neutral {
+    color: #aeb9c8;
+    background: rgba(148, 163, 184, 0.08);
+    border-color: rgba(148, 163, 184, 0.16);
+}
+
+
+/* ============================================================
+   VERTICAL CONNECTOR
+============================================================ */
+
+.chain-connector {
+    position: relative;
+
+    width: 2px;
+    height: 24px;
+
+    margin: 0 auto;
+
+    background: #3b4756;
+}
+
+
+/* Connector node / arrow head */
+
+.chain-connector::after {
+    content: "";
+    position: absolute;
+
+    left: 50%;
+    bottom: -1px;
+
+    width: 4px;
+    height: 4px;
+
+    border-radius: 50%;
+
+    background: #64748b;
+
+    transform: translateX(-50%);
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .chain-node {
+        padding: 14px;
+    }
+
+    .chain-title {
+        font-size: 13px;
+    }
+
+    .chain-status {
+        font-size: 10px;
+    }
+
+    .chain-connector {
+        height: 20px;
+    }
+
+}
+
+.additional-pathway {
+    margin: 12px 4px 0;
+    color: #8f9caf;
+    font-size: 12px;
+    font-weight: 500;
+}

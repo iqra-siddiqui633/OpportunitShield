@@ -1,0 +1,969 @@
+/* =========================================================
+   OPPORTUNITYSHIELD
+   Main Dashboard Styles
+========================================================= */
+
+:root {
+    --bg: #080b12;
+    --surface: #10151f;
+    --surface-light: #161d29;
+    --border: #263142;
+
+    --text: #f3f6fb;
+    --muted: #9aa6b8;
+
+    --blue: #4da3ff;
+    --blue-dark: #1d4f91;
+
+    --green: #35d07f;
+    --yellow: #f4c95d;
+    --red: #ff5c67;
+
+    --shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+}
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(45, 111, 180, 0.15),
+            transparent 35%
+        ),
+        var(--bg);
+
+    color: var(--text);
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    line-height: 1.6;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header {
+    padding: 45px 20px 35px;
+
+    text-align: center;
+
+    border-bottom: 1px solid var(--border);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(20, 35, 55, 0.7),
+            rgba(8, 11, 18, 0)
+        );
+}
+
+header h1 {
+    margin: 0;
+
+    font-size: clamp(2rem, 5vw, 3rem);
+
+    font-weight: 700;
+
+    letter-spacing: -1px;
+}
+
+header p {
+    margin: 10px 0 0;
+
+    color: var(--muted);
+
+    font-size: 1rem;
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+main {
+    width: min(1050px, 92%);
+
+    margin: 35px auto 80px;
+}
+
+/* =========================================================
+   GENERAL SECTIONS
+========================================================= */
+
+main > section {
+    margin-bottom: 25px;
+
+    padding: 30px;
+
+    background: rgba(16, 21, 31, 0.94);
+
+    border: 1px solid var(--border);
+
+    border-radius: 18px;
+
+    box-shadow: var(--shadow);
+}
+
+section h2 {
+    margin-top: 0;
+
+    font-size: 1.7rem;
+}
+
+section h3 {
+    margin-top: 28px;
+
+    color: var(--text);
+
+    font-size: 1.15rem;
+}
+
+section p {
+    color: var(--muted);
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+label {
+    display: block;
+
+    margin-top: 22px;
+    margin-bottom: 8px;
+
+    font-weight: 600;
+
+    color: #dce4ef;
+}
+
+label span {
+    color: var(--muted);
+
+    font-size: 0.85rem;
+
+    font-weight: normal;
+}
+
+textarea,
+input,
+select {
+    width: 100%;
+
+    padding: 14px 16px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    background: #0b1018;
+
+    color: var(--text);
+
+    font-size: 0.95rem;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+textarea {
+    min-height: 220px;
+
+    resize: vertical;
+
+    font-family: inherit;
+}
+
+textarea:focus,
+input:focus,
+select:focus {
+    border-color: var(--blue);
+
+    background: #0d141e;
+
+    box-shadow:
+        0 0 0 3px rgba(77, 163, 255, 0.12);
+}
+
+select {
+    cursor: pointer;
+}
+
+/* =========================================================
+   ANALYZE BUTTON
+========================================================= */
+
+#analyzeButton {
+    display: block;
+
+    width: 100%;
+
+    margin-top: 30px;
+
+    padding: 15px 20px;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2678c9,
+            #3d9af0
+        );
+
+    color: white;
+
+    font-size: 1rem;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+}
+
+#analyzeButton:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 25px rgba(45, 140, 230, 0.3);
+}
+
+#analyzeButton:active {
+    transform: translateY(0);
+}
+
+#analyzeButton:disabled {
+    opacity: 0.55;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+#loading {
+    text-align: center;
+}
+
+#loading h3 {
+    margin-top: 0;
+
+    color: var(--blue);
+}
+
+#loading p {
+    margin-bottom: 0;
+}
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+#errorBox {
+    border-color: rgba(255, 92, 103, 0.5);
+
+    background:
+        rgba(120, 20, 30, 0.18);
+}
+
+#errorBox h3 {
+    color: var(--red);
+
+    margin-top: 0;
+}
+
+#errorMessage {
+    color: #ffb6bb;
+}
+
+/* =========================================================
+   RESULT HEADER
+========================================================= */
+
+#result > h2 {
+    margin-bottom: 25px;
+}
+
+/* =========================================================
+   RECOMMENDATION BOX
+========================================================= */
+
+#recommendationBox {
+    padding: 25px;
+
+    margin-bottom: 25px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    background: var(--surface-light);
+
+    text-align: center;
+}
+
+#recommendation {
+    margin: 0;
+
+    font-size: 2rem;
+
+    font-weight: 800;
+}
+
+#recommendationBox p {
+    margin-bottom: 0;
+
+    font-size: 1.05rem;
+}
+
+#riskScore {
+    color: var(--blue);
+
+    font-size: 1.3rem;
+}
+
+/* =========================================================
+   CRITICAL INDICATORS
+========================================================= */
+
+#criticalBox {
+    padding: 20px;
+
+    margin-bottom: 25px;
+
+    border: 1px solid rgba(255, 92, 103, 0.45);
+
+    border-left: 5px solid var(--red);
+
+    border-radius: 12px;
+
+    background:
+        rgba(255, 92, 103, 0.07);
+}
+
+#criticalBox h3 {
+    margin-top: 0;
+
+    color: var(--red);
+}
+
+#criticalIndicators {
+    margin-bottom: 0;
+}
+
+#criticalIndicators li {
+    margin: 7px 0;
+
+    color: #ffb6bb;
+
+    font-weight: 600;
+}
+
+/* =========================================================
+   RISK ANALYSIS
+========================================================= */
+
+#riskDimensions {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 16px;
+
+    margin-top: 18px;
+}
+
+#riskDimensions > div {
+    padding: 20px;
+
+    background: var(--surface-light);
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
+}
+
+#riskDimensions > div:hover {
+    transform: translateY(-2px);
+
+    border-color: #3b4c63;
+}
+
+#riskDimensions h4 {
+    margin: 0 0 10px;
+
+    font-size: 1rem;
+}
+
+#riskDimensions p {
+    display: inline-block;
+
+    margin: 0 0 10px;
+
+    padding: 4px 10px;
+
+    border-radius: 20px;
+
+    background: #0b111a;
+
+    color: var(--blue);
+
+    font-size: 0.85rem;
+
+    font-weight: 700;
+}
+
+#riskDimensions ul {
+    margin-bottom: 0;
+
+    padding-left: 20px;
+}
+
+#riskDimensions li {
+    margin: 5px 0;
+
+    color: #c3ccd9;
+
+    font-size: 0.9rem;
+}
+
+/* =========================================================
+   EXTRACTED EVIDENCE
+========================================================= */
+
+#extractedEvidence {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+
+    margin-top: 15px;
+}
+
+#extractedEvidence > p {
+    margin: 0;
+}
+
+#extractedEvidence ul {
+    margin-top: 0;
+
+    padding: 15px 15px 15px 35px;
+
+    min-height: 55px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    background: #0b1018;
+
+    overflow-wrap: anywhere;
+}
+
+#extractedEvidence li {
+    color: #cbd5e1;
+}
+
+/* =========================================================
+   EVIDENCE REPORT
+========================================================= */
+
+#explanation {
+    margin-top: 15px;
+
+    padding: 20px;
+
+    min-height: 150px;
+
+    overflow-x: auto;
+
+    white-space: pre-wrap;
+
+    word-break: break-word;
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    background: #080d14;
+
+    color: #cbd5e1;
+
+    font-family:
+        "Cascadia Code",
+        "Consolas",
+        monospace;
+
+    font-size: 0.85rem;
+
+    line-height: 1.7;
+}
+
+/* =========================================================
+   RESPONSIVE DESIGN
+========================================================= */
+
+@media (max-width: 750px) {
+
+    main {
+        width: 94%;
+
+        margin-top: 20px;
+    }
+
+    main > section {
+        padding: 20px;
+    }
+
+    #riskDimensions,
+    #extractedEvidence {
+        grid-template-columns: 1fr;
+    }
+
+    header {
+        padding: 32px 15px 25px;
+    }
+
+    #recommendation {
+        font-size: 1.6rem;
+    }
+}
+
+/* =========================================================
+   SMALL SCREENS
+========================================================= */
+
+@media (max-width: 480px) {
+
+    main > section {
+        padding: 16px;
+    }
+
+    textarea {
+        min-height: 180px;
+    }
+
+    #riskDimensions > div {
+        padding: 16px;
+    }
+}
+
+/* =====================================================
+   EVIDENCE ANALYSIS DASHBOARD
+===================================================== */
+
+.analysis-section {
+    margin-top: 30px;
+}
+
+.analysis-card {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 14px;
+    padding: 20px;
+    margin-top: 15px;
+}
+
+.analysis-card h3 {
+    margin-top: 0;
+}
+
+.decision-basis {
+    line-height: 1.7;
+    color: #d7dee7;
+}
+
+.decision-basis li {
+    margin-bottom: 8px;
+}
+
+.evidence-chain {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.chain-node {
+    padding: 13px 15px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.12);
+    min-width: 120px;
+    text-align: center;
+}
+
+.chain-title {
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.chain-status {
+    font-size: 12px;
+}
+
+.chain-arrow {
+    font-size: 20px;
+    opacity: 0.5;
+}
+
+.status-supported {
+    color: #65e6a3;
+}
+
+.status-unverified {
+    color: #ffd166;
+}
+
+.status-contradicted {
+    color: #ff7b8a;
+}
+
+.status-neutral {
+    color: #aab5c0;
+}
+
+.finding {
+    display: flex;
+    gap: 12px;
+    padding: 13px;
+    margin: 8px 0;
+    border-radius: 9px;
+    background: rgba(255,255,255,0.025);
+}
+
+.finding-icon {
+    font-size: 18px;
+}
+
+.finding-text {
+    line-height: 1.5;
+}
+
+.risk-profile-item {
+    margin: 17px 0;
+}
+
+.risk-profile-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 7px;
+}
+
+.risk-bar {
+    width: 100%;
+    height: 9px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.risk-bar-fill {
+    height: 100%;
+    border-radius: 20px;
+    background: #ff6b6b;
+}
+
+.pathway-step {
+    display: flex;
+    gap: 14px;
+    margin: 13px 0;
+    align-items: flex-start;
+}
+
+.pathway-number {
+    min-width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.10);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.pathway-text {
+    line-height: 1.5;
+}
+
+.technical-report {
+    margin-top: 25px;
+}
+
+.technical-report summary {
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.04);
+    color: #aab5c0;
+}
+
+.technical-report pre {
+    margin-top: 10px;
+}
+
+
+
+
+/* =========================================================
+   OPPORTUNITYSHIELD — COMPACT JUDGE DASHBOARD
+========================================================= */
+
+.judge-dashboard {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 20px;
+    align-items: start;
+    margin-top: 20px;
+}
+
+.dashboard-column {
+    min-width: 0;
+}
+
+.dashboard-card {
+    padding: 20px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 18px;
+}
+
+.dashboard-card:last-child {
+    margin-bottom: 0;
+}
+
+.dashboard-card > h3 {
+    margin-top: 0;
+    margin-bottom: 14px;
+}
+
+
+/* Compact verification controls */
+
+.verification-controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.verification-control {
+    min-width: 0;
+}
+
+.verification-control label {
+    display: block;
+    margin-bottom: 7px;
+}
+
+
+/* Evidence chain */
+
+.compact-chain {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.compact-chain .chain-node {
+    position: relative;
+    border-left-width: 3px;
+}
+
+.compact-chain .chain-arrow {
+    height: 18px;
+    padding: 0;
+    line-height: 18px;
+}
+
+
+/* Assessment */
+
+.assessment-card {
+    text-align: center;
+}
+
+.assessment-card #recommendation {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+}
+
+.assessment-score {
+    font-size: 1.05rem;
+}
+
+.assessment-score strong {
+    font-size: 1.4rem;
+}
+
+
+/* Risk profile */
+
+.compact-risk-profile {
+    margin-top: 0;
+}
+
+
+/* Pathway */
+
+.compact-pathway {
+    margin-top: 0;
+}
+
+
+/* Desktop judge view */
+
+@media (min-width: 1000px) {
+
+    .judge-dashboard {
+        position: relative;
+    }
+
+}
+
+
+/* Tablet/mobile */
+
+@media (max-width: 900px) {
+
+    .judge-dashboard {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .verification-controls {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+
+
+
+
+
+
+/* =========================================================
+   OPPORTUNITYSHIELD — DASHBOARD POLISH / FIX
+========================================================= */
+
+/* Prevent nested analysis cards from creating empty-looking
+   bars inside the main dashboard cards */
+
+.judge-dashboard .dashboard-card > .analysis-card {
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+}
+
+
+/* Keep the dashboard two-column on normal laptop screens */
+
+@media (min-width: 901px) {
+
+    .judge-dashboard {
+        grid-template-columns:
+            minmax(0, 1fr)
+            minmax(0, 1fr);
+    }
+
+}
+
+
+/* Only collapse on genuinely narrow screens */
+
+@media (max-width: 700px) {
+
+    .judge-dashboard {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* Make the assessment visually stronger */
+
+.assessment-card {
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+/* Don't allow empty technical/report containers
+   to create excessive vertical space */
+
+.judge-dashboard .analysis-card:empty {
+    display: none;
+}
+
+
+/* Compact spacing inside dashboard */
+
+.judge-dashboard .dashboard-card h3 {
+    margin-top: 0;
+}
+
+
+/* Risk profile should remain compact */
+
+.judge-dashboard .compact-risk-profile {
+    min-height: 0;
+}
+
+
+/* Verification pathway should not inherit
+   unnecessary large-card spacing */
+
+.judge-dashboard .compact-pathway {
+    min-height: 0;
+}

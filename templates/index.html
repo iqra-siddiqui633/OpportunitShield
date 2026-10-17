@@ -1,0 +1,3088 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>OpportunityShield</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    
+
+</head>
+
+
+<body>
+
+<header>
+
+    <h1>🛡️ OpportunityShield</h1>
+
+    <p>
+        Evidence-Based Digital Opportunity Verification
+    </p>
+
+</header>
+
+
+<main>
+
+    <!-- =====================================================
+         INPUT
+    ====================================================== -->
+
+    <section>
+
+        <h2>Verify an Opportunity</h2>
+
+        <p>
+            Paste a job, internship, scholarship or other
+            digital opportunity below.
+        </p>
+
+
+        <label for="opportunityText">
+            Opportunity Message
+        </label>
+
+        <textarea
+            id="opportunityText"
+            rows="12"
+            placeholder="Paste the opportunity message here..."
+        ></textarea>
+
+        <div class="image-upload-section">
+    <div class="image-upload-header">
+        <span>📷 Upload Opportunity Screenshot</span>
+        <small>Optional — JPG, PNG or WEBP</small>
+    </div>
+
+    <label for="opportunityImage" class="upload-dropzone">
+        <span class="upload-icon">📄</span>
+        <strong>Choose an image</strong>
+        <small>Upload a screenshot, poster or forwarded opportunity</small>
+    </label>
+
+    <input
+        type="file"
+        id="opportunityImage"
+        accept="image/png,image/jpeg,image/webp"
+        hidden
+    >
+
+    <div id="imagePreview" class="image-preview" style="display:none;">
+        <img id="previewImage" alt="Uploaded opportunity preview">
+
+        <div class="image-preview-info">
+            <strong id="imageFileName"></strong>
+            <button type="button" id="removeImage">Remove</button>
+        </div>
+    </div>
+
+    <div id="ocrStatus" class="ocr-status" style="display:none;"></div>
+</div>
+
+        <!-- QUICK DEMO CASES -->
+<div class="quick-demo">
+
+    <div class="quick-demo-header">
+        <span>Quick Demo Cases</span>
+        <small>Load a prepared evaluation case</small>
+    </div>
+
+    <div class="demo-buttons">
+
+        <button
+            type="button"
+            class="demo-btn demo-genuine"
+            onclick="loadDemoCase('G01')">
+            🟢 G01 — Genuine
+        </button>
+
+        <button
+            type="button"
+            class="demo-btn demo-ambiguous"
+            onclick="loadDemoCase('A01')">
+            🟡 A01 — Ambiguous
+        </button>
+
+        <button
+            type="button"
+            class="demo-btn demo-fraud"
+            onclick="loadDemoCase('F01')">
+            🔴 F01 — Fraud
+        </button>
+
+    </div>
+
+</div>
+
+
+        <label for="organizationDomain">
+
+            Organization Official Domain
+
+            <span>(optional)</span>
+
+        </label>
+
+        <input
+            type="text"
+            id="organizationDomain"
+            placeholder="example.com"
+        >
+
+
+        <h3>
+            Verification Evidence
+        </h3>
+
+
+        <label for="officialOpportunity">
+
+            Is this opportunity available on the
+            organization's official website?
+
+        </label>
+
+        <select id="officialOpportunity">
+
+            <option value="null">
+                Not checked
+            </option>
+
+            <option value="true">
+                Yes — confirmed
+            </option>
+
+            <option value="false">
+                No — not found / contradicted
+            </option>
+
+        </select>
+
+
+        <label for="detailsMatch">
+
+            Do the opportunity details match the
+            official source?
+
+        </label>
+
+        <select id="detailsMatch">
+
+            <option value="null">
+                Not checked
+            </option>
+
+            <option value="true">
+                Yes — details match
+            </option>
+
+            <option value="false">
+                No — details conflict
+            </option>
+
+        </select>
+
+
+        <button
+            id="analyzeButton"
+            onclick="analyzeOpportunity()"
+        >
+            🔍 Analyze Opportunity
+        </button>
+
+    </section>
+
+
+    <!-- =====================================================
+         LOADING
+    ====================================================== -->
+
+    <section
+        id="loading"
+        style="display: none;"
+    >
+
+        <h3>
+            Analyzing...
+        </h3>
+
+        <p>
+            OpportunityShield is examining the available
+            evidence.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         ERROR
+    ====================================================== -->
+
+    <section
+        id="errorBox"
+        style="display: none;"
+    >
+
+        <h3>
+            Error
+        </h3>
+
+        <p id="errorMessage"></p>
+
+    </section>
+
+
+
+    <!-- =====================================================
+     RESULT — JUDGE DASHBOARD
+====================================================== -->
+
+<section
+    id="result"
+    style="display: none;"
+>
+
+    <div class="result-header">
+        <div>
+            <h2>OpportunityShield Assessment</h2>
+            <p class="result-subtitle">
+                Evidence-based assessment of the submitted digital opportunity.
+            </p>
+        </div>
+    </div>
+
+
+    <!-- =================================================
+         COMPACT JUDGE DASHBOARD
+    ================================================== -->
+
+    <div class="judge-dashboard">
+
+        <!-- =============================================
+             LEFT COLUMN
+        ============================================== -->
+
+        <div class="dashboard-column">
+
+            <!-- DECISION BASIS -->
+
+            <div class="dashboard-card">
+
+                <h3>Decision Basis</h3>
+
+                <div
+                    id="decisionBasis"
+                   
+                ></div>
+
+            </div>
+
+
+            <!-- EVIDENCE CHAIN -->
+
+            <div class="dashboard-card">
+
+                <h3>Evidence Chain</h3>
+
+                <div
+                    id="evidenceChain"
+                    class="evidence-chain-container compact-chain"
+                ></div>
+
+            </div>
+
+
+            <!-- EVIDENCE VERIFICATION -->
+
+            <div class="dashboard-card">
+
+                <h3>Evidence Verification</h3>
+
+                <div
+                    id="verificationSummary"
+                    class="verification-grid"
+                ></div>
+
+            </div>
+
+
+            <!-- WHY THIS RESULT -->
+
+            <div class="dashboard-card">
+
+                <h3>Why This Result?</h3>
+
+                <div
+                    id="whyResult"
+                    
+                ></div>
+
+            </div>
+
+
+            <!-- EXTRACTED EVIDENCE -->
+
+            <div class="dashboard-card">
+
+                <h3>Extracted Evidence</h3>
+
+                <div
+                    id="extractedEvidence"
+                    class="analysis-card extracted-box"
+                >
+
+                    <div class="extracted-item">
+
+                        <strong>Emails</strong>
+
+                        <ul id="emails"></ul>
+
+                    </div>
+
+
+                    <div class="extracted-item">
+
+                        <strong>URLs</strong>
+
+                        <ul id="urls"></ul>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =============================================
+             RIGHT COLUMN
+        ============================================== -->
+
+        <div class="dashboard-column">
+
+            <!-- FINAL ASSESSMENT -->
+
+            <div
+                class="dashboard-card assessment-card"
+                id="recommendationBox"
+            >
+
+                <h3 id="recommendation"></h3>
+
+                <div class="assessment-score">
+
+                    Risk Score:
+                    <strong id="riskScore"></strong>
+
+                </div>
+
+                <p
+                    id="decisionDescription"
+                    class="decision-description"
+                ></p>
+
+            </div>
+
+
+            <!-- CRITICAL INDICATORS -->
+
+            <div
+                id="criticalBox"
+                class="dashboard-card"
+                style="display: none;"
+            >
+
+                <h3>
+                    ⚠️ Critical Indicators
+                </h3>
+
+                <ul id="criticalIndicators"></ul>
+
+            </div>
+
+
+            <!-- RISK PROFILE -->
+
+            <div class="dashboard-card">
+
+                <h3>Risk Profile</h3>
+
+                <div
+                    id="riskProfile"
+                    class="compact-risk-profile"
+                ></div>
+
+            </div>
+
+
+            <!-- VERIFICATION PATHWAY -->
+
+            <div class="dashboard-card">
+
+                <h3>Verification Pathway</h3>
+
+                <div
+                    id="verificationPathway"
+                    class="compact-pathway"
+                ></div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script>
+    
+function loadDemoCase(caseId) {
+
+    const cases = {
+
+        G01: {
+            text: `BrightLabs Technologies is offering a software development
+internship for undergraduate students.
+
+The internship details and application process are available
+on the organization's official website.
+
+There is no registration fee or security deposit.
+Selected students will receive a completion certificate.`,
+
+            domain: "brightlabs.example",
+            officialOpportunity: "true",
+            detailsMatch: "true"
+        },
+
+
+        A01: {
+            text: `BrightLabs internship opportunity for students.
+
+A refundable training fee of ₹500 is mentioned.
+Applications are closing shortly.
+
+Please verify the opportunity and payment details
+before proceeding.`,
+
+            domain: "brightlabs.example",
+            officialOpportunity: "null",
+            detailsMatch: "null"
+        },
+
+
+        F01: {
+            text: `Congratulations! You have been selected for a guaranteed
+internship at BrightLabs.
+
+Pay a registration fee of ₹2999 within 30 minutes.
+Send the payment to hrselection@protonmail.com.
+
+You must provide your Aadhaar number, bank account details
+and OTP immediately.
+
+Only five seats remain. Failure to pay will cancel your
+selection.
+
+Application:
+https://brightlabs-selection.example/apply`,
+
+            domain: "brightlabs.example",
+            officialOpportunity: "false",
+            detailsMatch: "false"
+        }
+
+    };
+
+
+    const demo =
+        cases[caseId];
+
+    if (!demo) {
+        return;
+    }
+
+
+    /* --------------------------------------------------------
+       Load demo data
+    -------------------------------------------------------- */
+
+    document.getElementById(
+        "opportunityText"
+    ).value =
+        demo.text;
+
+
+    document.getElementById(
+        "organizationDomain"
+    ).value =
+        demo.domain;
+
+
+    document.getElementById(
+        "officialOpportunity"
+    ).value =
+        demo.officialOpportunity;
+
+
+    document.getElementById(
+        "detailsMatch"
+    ).value =
+        demo.detailsMatch;
+
+
+    /* --------------------------------------------------------
+       Scroll to input briefly
+    -------------------------------------------------------- */
+
+    document.getElementById(
+        "opportunityText"
+    ).scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+
+
+    /* --------------------------------------------------------
+       Automatically analyze
+    -------------------------------------------------------- */
+
+    setTimeout(
+        function() {
+            analyzeOpportunity();
+        },
+        350
+    );
+
+}
+
+const imageInput = document.getElementById("opportunityImage");
+const imagePreview = document.getElementById("imagePreview");
+const previewImage = document.getElementById("previewImage");
+const imageFileName = document.getElementById("imageFileName");
+const removeImage = document.getElementById("removeImage");
+
+imageInput.addEventListener("change", function () {
+    const file = this.files[0];
+
+    if (!file) {
+        imagePreview.style.display = "none";
+        return;
+    }
+
+    const allowedTypes = [
+        "image/png",
+        "image/jpeg",
+        "image/webp"
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+        alert("Please upload a PNG, JPG or WEBP image.");
+        this.value = "";
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function (event) {
+        previewImage.src = event.target.result;
+        imageFileName.textContent = file.name;
+        imagePreview.style.display = "flex";
+    };
+
+    reader.readAsDataURL(file);
+
+    // START OCR
+    extractTextFromImage(file);
+});
+
+async function extractTextFromImage(file) {
+    const ocrStatus = document.getElementById("ocrStatus");
+    const opportunityText = document.getElementById("opportunityText");
+
+    ocrStatus.style.display = "block";
+    ocrStatus.textContent = "⏳ Extracting text from image...";
+    ocrStatus.style.color = "#f59e0b";
+    ocrStatus.style.background = "rgba(245, 158, 11, 0.08)";
+
+    try {
+        const result = await Tesseract.recognize(
+            file,
+            "eng",
+            {
+                logger: function (info) {
+                    if (info.status === "recognizing text") {
+                        const progress = Math.round(info.progress * 100);
+                        ocrStatus.textContent =
+                            `⏳ Reading image... ${progress}%`;
+                    }
+                }
+            }
+        );
+
+        const extractedText = result.data.text.trim();
+
+        if (!extractedText) {
+            ocrStatus.textContent =
+                "⚠️ No readable text was found. Try a clearer image.";
+            ocrStatus.style.color = "#f59e0b";
+            ocrStatus.style.background =
+                "rgba(245, 158, 11, 0.08)";
+            return;
+        }
+
+        opportunityText.value = extractedText;
+
+        ocrStatus.textContent =
+            "✓ Text extracted successfully. Review it before analyzing.";
+        ocrStatus.style.color = "#4ade80";
+        ocrStatus.style.background =
+            "rgba(74, 222, 128, 0.08)";
+
+    } catch (error) {
+        console.error("OCR error:", error);
+
+        ocrStatus.textContent =
+            "⚠️ OCR failed. Please paste the opportunity text manually.";
+        ocrStatus.style.color = "#f87171";
+        ocrStatus.style.background =
+            "rgba(239, 68, 68, 0.08)";
+    }
+}
+
+removeImage.addEventListener("click", function () {
+    imageInput.value = "";
+    imagePreview.style.display = "none";
+    previewImage.src = "";
+    imageFileName.textContent = "";
+});
+/* ============================================================
+   ANALYZE OPPORTUNITY
+============================================================ */
+
+async function analyzeOpportunity() {
+
+    const text =
+        document
+            .getElementById("opportunityText")
+            .value
+            .trim();
+
+
+    const organizationDomain =
+        document
+            .getElementById("organizationDomain")
+            .value
+            .trim();
+
+
+    const officialOpportunity =
+        document
+            .getElementById("officialOpportunity")
+            .value;
+
+
+    const detailsMatch =
+        document
+            .getElementById("detailsMatch")
+            .value;
+
+
+    if (!text) {
+
+        showError(
+            "Please paste an opportunity message first."
+        );
+
+        return;
+    }
+
+
+    let opportunityFoundOfficially = null;
+
+
+    if (officialOpportunity === "true") {
+
+        opportunityFoundOfficially = true;
+
+    }
+
+    else if (officialOpportunity === "false") {
+
+        opportunityFoundOfficially = false;
+
+    }
+
+
+    let opportunityDetailsMatch = null;
+
+
+    if (detailsMatch === "true") {
+
+        opportunityDetailsMatch = true;
+
+    }
+
+    else if (detailsMatch === "false") {
+
+        opportunityDetailsMatch = false;
+
+    }
+
+
+    document
+        .getElementById("loading")
+        .style.display = "block";
+
+
+    document
+        .getElementById("result")
+        .style.display = "none";
+
+
+    document
+        .getElementById("errorBox")
+        .style.display = "none";
+
+
+    const button =
+        document.getElementById(
+            "analyzeButton"
+        );
+
+
+    button.disabled = true;
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/analyze",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        text: text,
+
+                        organization_domain:
+                            organizationDomain || null,
+
+                        opportunity_found_officially:
+                            opportunityFoundOfficially,
+
+                        opportunity_details_match:
+                            opportunityDetailsMatch
+
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                "Analysis failed."
+            );
+
+        }
+
+
+        displayResult(
+            data,
+            organizationDomain,
+            opportunityFoundOfficially,
+            opportunityDetailsMatch
+        );
+
+    }
+
+    catch (error) {
+
+        showError(
+            error.message
+        );
+
+    }
+
+    finally {
+
+        document
+            .getElementById("loading")
+            .style.display = "none";
+
+
+        button.disabled = false;
+
+    }
+
+}
+
+
+/* ============================================================
+   DISPLAY RESULT
+============================================================ */
+
+function displayResult(
+    data,
+    organizationDomain,
+    opportunityFoundOfficially,
+    opportunityDetailsMatch
+) {
+
+    const risk =
+        data.risk_analysis || {};
+
+
+    const recommendation =
+        risk.recommendation || "UNKNOWN";
+
+
+    const score =
+        risk.total_score ?? 0;
+
+
+    document
+        .getElementById("recommendation")
+        .textContent =
+            getRecommendationText(
+                recommendation
+            );
+
+
+    document
+        .getElementById("riskScore")
+        .textContent =
+            score;
+
+
+    const descriptions = {
+
+        PROCEED:
+            "The available evidence currently supports the opportunity and no significant risk indicators were detected.",
+
+        VERIFY:
+            "The available evidence is incomplete or unresolved. Verify the outstanding points before proceeding.",
+
+        AVOID:
+            "The available evidence contains serious risk indicators or contradictions. Do not proceed until the concerns are resolved."
+
+    };
+
+
+    document
+        .getElementById("decisionDescription")
+        .textContent =
+            descriptions[
+                recommendation
+            ] || "";
+
+
+    /* --------------------------------------------------------
+       Critical indicators
+    -------------------------------------------------------- */
+
+    const criticalBox =
+        document.getElementById(
+            "criticalBox"
+        );
+
+
+    const criticalList =
+        document.getElementById(
+            "criticalIndicators"
+        );
+
+
+    criticalList.innerHTML = "";
+
+
+    if (
+        Array.isArray(
+            risk.critical_flags
+        ) &&
+        risk.critical_flags.length > 0
+    ) {
+
+        criticalBox.style.display =
+            "block";
+
+
+        risk.critical_flags.forEach(
+            function(flag) {
+
+                const li =
+                    document.createElement(
+                        "li"
+                    );
+
+
+                li.textContent =
+                    humanizeFlag(flag);
+
+
+                criticalList.appendChild(
+                    li
+                );
+
+            }
+        );
+
+    }
+
+    else {
+
+        criticalBox.style.display =
+            "none";
+
+    }
+
+
+    /* --------------------------------------------------------
+       Judge-facing sections
+    -------------------------------------------------------- */
+
+    renderDecisionBasis(
+        data
+    );
+
+
+    renderEvidenceChain(
+        data,
+        organizationDomain,
+        opportunityFoundOfficially,
+        opportunityDetailsMatch
+    );
+
+
+    renderVerificationSummary(
+        data,
+        organizationDomain,
+        opportunityFoundOfficially,
+        opportunityDetailsMatch
+    );
+
+
+    renderWhyResult(
+        data
+    );
+
+
+    renderRiskProfile(
+        data
+    );
+
+
+    renderExtractedEvidence(
+        data
+    );
+
+
+    renderVerificationPathway(
+        data
+    );
+
+
+    /* --------------------------------------------------------
+       Technical explanation
+    -------------------------------------------------------- */
+
+    const explanationElement = document.getElementById("explanation");
+
+    if (explanationElement) {
+        explanationElement.textContent = result.explanation;
+}
+
+    /* --------------------------------------------------------
+       Show result
+    -------------------------------------------------------- */
+
+    document
+        .getElementById("result")
+        .style.display = "block";
+
+
+    window.scrollTo({
+
+        top:
+            document
+                .getElementById("result")
+                .offsetTop,
+
+        behavior:
+            "smooth"
+
+    });
+
+}
+
+
+/* ============================================================
+   DECISION BASIS
+   Purpose:
+   Explain the basis of the final decision WITHOUT repeating
+   every individual risk rule.
+============================================================ */
+
+function renderDecisionBasis(data) {
+
+    const container =
+        document.getElementById(
+            "decisionBasis"
+        );
+
+
+    container.innerHTML = "";
+
+
+    const risk =
+        data.risk_analysis || {};
+
+
+    const recommendation =
+        risk.recommendation || "UNKNOWN";
+
+
+    const dimensions =
+        risk.dimensions || {};
+
+
+    const dimensionKeys =
+        Object.keys(dimensions);
+
+
+    const activeDimensions =
+        dimensionKeys.filter(
+            function(key) {
+
+                const item =
+                    dimensions[key];
+
+                return (
+                    item &&
+                    Array.isArray(
+                        item.triggered_rules
+                    ) &&
+                    item.triggered_rules.length > 0
+                );
+
+            }
+        );
+
+
+    const criticalFlags =
+        Array.isArray(
+            risk.critical_flags
+        )
+            ? risk.critical_flags
+            : [];
+
+
+    const basis =
+        document.createElement(
+            "div"
+        );
+
+
+    basis.className =
+        "basis-summary";
+
+
+    /* --------------------------------------------------------
+       Decision
+    -------------------------------------------------------- */
+
+    const decisionItem =
+        document.createElement(
+            "div"
+        );
+
+
+    decisionItem.className =
+        "basis-item";
+
+
+    decisionItem.innerHTML =
+        "<strong>Decision</strong>" +
+        "<span>" +
+        getRecommendationPlainText(
+            recommendation
+        ) +
+        "</span>";
+
+
+    basis.appendChild(
+        decisionItem
+    );
+
+
+    /* --------------------------------------------------------
+       Risk coverage
+    -------------------------------------------------------- */
+
+    const coverageItem =
+        document.createElement(
+            "div"
+        );
+
+
+    coverageItem.className =
+        "basis-item";
+
+
+    coverageItem.innerHTML =
+        "<strong>Risk Coverage</strong>" +
+        "<span>" +
+        (
+            activeDimensions.length === 0
+                ? "No risk dimensions were triggered."
+                : activeDimensions.length +
+                  " of " +
+                  dimensionKeys.length +
+                  " risk dimensions contain indicators."
+        ) +
+        "</span>";
+
+
+    basis.appendChild(
+        coverageItem
+    );
+
+
+    /* --------------------------------------------------------
+       Verification state
+    -------------------------------------------------------- */
+
+    const verificationItem =
+        document.createElement(
+            "div"
+        );
+
+
+    verificationItem.className =
+        "basis-item";
+
+
+    let verificationText;
+
+
+    if (
+        recommendation === "PROCEED"
+    ) {
+
+        verificationText =
+            "Available evidence is currently consistent.";
+
+    }
+
+    else if (
+        recommendation === "VERIFY"
+    ) {
+
+        verificationText =
+            "Some evidence remains unverified or unresolved.";
+
+    }
+
+    else if (
+        recommendation === "AVOID"
+    ) {
+
+        verificationText =
+            "Evidence contains serious risk indicators or contradictions.";
+
+    }
+
+    else {
+
+        verificationText =
+            "Assessment state could not be determined.";
+
+    }
+
+
+    verificationItem.innerHTML =
+        "<strong>Evidence State</strong>" +
+        "<span>" +
+        verificationText +
+        "</span>";
+
+
+    basis.appendChild(
+        verificationItem
+    );
+
+
+    /* --------------------------------------------------------
+       Critical evidence
+    -------------------------------------------------------- */
+
+    const criticalItem =
+        document.createElement(
+            "div"
+        );
+
+
+    criticalItem.className =
+        "basis-item";
+
+
+    let criticalText;
+
+
+    if (
+        criticalFlags.length > 0
+    ) {
+
+        criticalText =
+            criticalFlags.length +
+            " critical indicator" +
+            (
+                criticalFlags.length > 1
+                    ? "s"
+                    : ""
+            ) +
+            " detected.";
+
+    }
+
+    else {
+
+        criticalText =
+            "No critical indicators detected.";
+
+    }
+
+
+    criticalItem.innerHTML =
+        "<strong>Critical Evidence</strong>" +
+        "<span>" +
+        criticalText +
+        "</span>";
+
+
+    basis.appendChild(
+        criticalItem
+    );
+
+
+    container.appendChild(
+        basis
+    );
+
+}
+
+
+/* ============================================================
+   EVIDENCE CHAIN
+============================================================ */
+
+function renderEvidenceChain(
+    data,
+    organizationDomain,
+    opportunityFoundOfficially,
+    opportunityDetailsMatch
+) {
+
+    const container =
+        document.getElementById("evidenceChain");
+
+    container.innerHTML = "";
+
+    const verification =
+        data.verification || {};
+
+    const nodes = [];
+
+
+    /* --------------------------------------------------------
+       Organization
+    -------------------------------------------------------- */
+
+    nodes.push({
+
+        title: "Organization",
+
+        status:
+            organizationDomain
+                ? "Official domain provided"
+                : "Domain not provided",
+
+        className:
+            organizationDomain
+                ? "status-neutral"
+                : "status-unverified"
+
+    });
+
+
+    /* --------------------------------------------------------
+       Official communication channel
+    -------------------------------------------------------- */
+
+    const email =
+        getVerificationStatusFlexible(
+            verification,
+            [
+                "email",
+                "email_verification"
+            ],
+            "email"
+        );
+
+    nodes.push({
+
+        title: "Official Channel",
+
+        status: email.label,
+
+        className: email.className
+
+    });
+
+
+    /* --------------------------------------------------------
+       Specific opportunity
+    -------------------------------------------------------- */
+
+    if (
+        opportunityFoundOfficially === true
+    ) {
+
+        nodes.push({
+
+            title: "Specific Opportunity",
+
+            status: "Officially found",
+
+            className: "status-supported"
+
+        });
+
+    }
+
+    else if (
+        opportunityFoundOfficially === false
+    ) {
+
+        nodes.push({
+
+            title: "Specific Opportunity",
+
+            status: "Not found / contradicted",
+
+            className: "status-contradicted"
+
+        });
+
+    }
+
+    else {
+
+        nodes.push({
+
+            title: "Specific Opportunity",
+
+            status: "Not independently checked",
+
+            className: "status-unverified"
+
+        });
+
+    }
+
+
+    /* --------------------------------------------------------
+       Offer details
+    -------------------------------------------------------- */
+
+    if (
+        opportunityDetailsMatch === true
+    ) {
+
+        nodes.push({
+
+            title: "Offer Details",
+
+            status: "Match",
+
+            className: "status-supported"
+
+        });
+
+    }
+
+    else if (
+        opportunityDetailsMatch === false
+    ) {
+
+        nodes.push({
+
+            title: "Offer Details",
+
+            status: "Conflict",
+
+            className: "status-contradicted"
+
+        });
+
+    }
+
+    else {
+
+        nodes.push({
+
+            title: "Offer Details",
+
+            status: "Not independently checked",
+
+            className: "status-unverified"
+
+        });
+
+    }
+
+
+    /* --------------------------------------------------------
+       Application URL
+    -------------------------------------------------------- */
+
+    const url =
+        getVerificationStatusFlexible(
+            verification,
+            [
+                "url",
+                "url_verification"
+            ],
+            "url"
+        );
+
+    nodes.push({
+
+        title: "Application URL",
+
+        status: url.label,
+
+        className: url.className
+
+    });
+
+
+    /* --------------------------------------------------------
+       Payment / sensitive data
+    -------------------------------------------------------- */
+
+    const dimensions =
+        data.risk_analysis &&
+        data.risk_analysis.dimensions
+            ? data.risk_analysis.dimensions
+            : {};
+
+    const financial =
+        dimensions.financial;
+
+    const sensitive =
+        dimensions.sensitive_data;
+
+    const financialTriggered =
+        financial &&
+        Array.isArray(
+            financial.triggered_rules
+        ) &&
+        financial.triggered_rules.length > 0;
+
+    const sensitiveTriggered =
+        sensitive &&
+        Array.isArray(
+            sensitive.triggered_rules
+        ) &&
+        sensitive.triggered_rules.length > 0;
+
+
+    if (
+        financialTriggered ||
+        sensitiveTriggered
+    ) {
+
+        nodes.push({
+
+            title: "Payment / Data",
+
+            status: "Risk indicators detected",
+
+            className: "status-risk"
+
+        });
+
+    }
+
+    else {
+
+        nodes.push({
+
+            title: "Payment / Data",
+
+            status: "No significant risk request detected",
+
+            className: "status-supported"
+
+        });
+
+    }
+
+
+    /* --------------------------------------------------------
+       Render
+    -------------------------------------------------------- */
+
+    nodes.forEach(
+        function(node, index) {
+
+            const wrapper =
+                document.createElement("div");
+
+            wrapper.className =
+                "chain-node " +
+                node.className;
+
+
+            /* Status icon */
+
+            const icon =
+                document.createElement("span");
+
+            icon.className =
+                "chain-status-icon";
+
+
+            if (
+                node.className ===
+                "status-supported"
+            ) {
+
+                icon.textContent = "✓";
+
+            }
+
+            else if (
+                node.className ===
+                "status-contradicted"
+            ) {
+
+                icon.textContent = "✕";
+
+            }
+
+            else if (
+                node.className ===
+                "status-unverified"
+            ) {
+
+                icon.textContent = "⚠";
+
+            }
+
+            else if (
+                node.className ===
+                "status-risk"
+            ) {
+
+                icon.textContent = "⚠";
+
+            }
+
+            else {
+
+                icon.textContent = "•";
+
+            }
+
+
+            /* Title */
+
+            const title =
+                document.createElement("div");
+
+            title.className =
+                "chain-title";
+
+            title.textContent =
+                node.title;
+
+
+            /* Status pill */
+
+            const status =
+                document.createElement("div");
+
+            status.className =
+                "chain-status " +
+                node.className;
+
+            status.textContent =
+                node.status;
+
+
+            wrapper.appendChild(icon);
+            wrapper.appendChild(title);
+            wrapper.appendChild(status);
+
+            container.appendChild(wrapper);
+
+
+            /* Connector */
+
+            if (
+                index <
+                nodes.length - 1
+            ) {
+
+                const connector =
+                    document.createElement("div");
+
+                connector.className =
+                    "chain-connector";
+
+                container.appendChild(
+                    connector
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   EVIDENCE VERIFICATION
+============================================================ */
+
+function renderVerificationSummary(
+    data,
+    organizationDomain,
+    opportunityFoundOfficially,
+    opportunityDetailsMatch
+) {
+
+    const container =
+        document.getElementById(
+            "verificationSummary"
+        );
+
+
+    container.innerHTML = "";
+
+
+    /* --------------------------------------------------------
+       Organization
+    -------------------------------------------------------- */
+
+    addEvidenceCard(
+
+        container,
+
+        "Organization Identity",
+
+        organizationDomain
+            ? "✓ Official domain provided for verification"
+            : "⚠ Organization domain not provided",
+
+        organizationDomain
+            ? "status-neutral"
+            : "status-unverified"
+
+    );
+
+
+    /* --------------------------------------------------------
+       Specific Opportunity
+    -------------------------------------------------------- */
+
+    if (
+        opportunityFoundOfficially === true
+    ) {
+
+        addEvidenceCard(
+
+            container,
+
+            "Specific Opportunity",
+
+            "✓ Found on official source",
+
+            "status-supported"
+
+        );
+
+    }
+
+    else if (
+        opportunityFoundOfficially === false
+    ) {
+
+        addEvidenceCard(
+
+            container,
+
+            "Specific Opportunity",
+
+            "✕ Not found / contradicted",
+
+            "status-contradicted"
+
+        );
+
+    }
+
+    else {
+
+        addEvidenceCard(
+
+            container,
+
+            "Specific Opportunity",
+
+            "⚠ Not independently checked",
+
+            "status-unverified"
+
+        );
+
+    }
+
+
+    /* --------------------------------------------------------
+       Opportunity Details
+    -------------------------------------------------------- */
+
+    if (
+        opportunityDetailsMatch === true
+    ) {
+
+        addEvidenceCard(
+
+            container,
+
+            "Opportunity Details",
+
+            "✓ Details match official source",
+
+            "status-supported"
+
+        );
+
+    }
+
+    else if (
+        opportunityDetailsMatch === false
+    ) {
+
+        addEvidenceCard(
+
+            container,
+
+            "Opportunity Details",
+
+            "✕ Details conflict with official source",
+
+            "status-contradicted"
+
+        );
+
+    }
+
+    else {
+
+        addEvidenceCard(
+
+            container,
+
+            "Opportunity Details",
+
+            "⚠ Not independently checked",
+
+            "status-unverified"
+
+        );
+
+    }
+
+
+    /* --------------------------------------------------------
+       Communication channel
+    -------------------------------------------------------- */
+
+    const verification =
+        data.verification || {};
+
+
+    const emailStatus =
+        getVerificationStatusFlexible(
+            verification,
+            [
+                "email",
+                "email_verification"
+            ],
+            "email"
+        );
+
+
+    const urlStatus =
+        getVerificationStatusFlexible(
+            verification,
+            [
+                "url",
+                "url_verification"
+            ],
+            "url"
+        );
+
+
+    addEvidenceCard(
+
+        container,
+
+        "Communication Channel",
+
+        emailStatus.label,
+
+        emailStatus.className
+
+    );
+
+
+    addEvidenceCard(
+
+        container,
+
+        "Application URL",
+
+        urlStatus.label,
+
+        urlStatus.className
+
+    );
+
+}
+
+
+/* ============================================================
+   ADD EVIDENCE CARD
+============================================================ */
+
+function addEvidenceCard(
+    container,
+    title,
+    message,
+    className
+) {
+
+    const card =
+        document.createElement(
+            "div"
+        );
+
+
+    card.className =
+        "evidence-card";
+
+
+    const heading =
+        document.createElement(
+            "h4"
+        );
+
+
+    heading.textContent =
+        title;
+
+
+    const status =
+        document.createElement(
+            "div"
+        );
+
+
+    status.className =
+        className;
+
+
+    status.textContent =
+        message;
+
+
+    card.appendChild(
+        heading
+    );
+
+
+    card.appendChild(
+        status
+    );
+
+
+    container.appendChild(
+        card
+    );
+
+}
+
+
+function renderWhyResult(data) {
+
+    const container =
+        document.getElementById("whyResult");
+
+    container.innerHTML = "";
+
+    const risk =
+        data.risk_analysis || {};
+
+    const dimensions =
+        risk.dimensions || {};
+
+    const findings = [];
+
+
+    /* --------------------------------------------------------
+       Collect triggered findings
+    -------------------------------------------------------- */
+
+    for (const dimension in dimensions) {
+
+        const item =
+            dimensions[dimension];
+
+        if (
+            !item ||
+            !Array.isArray(item.triggered_rules)
+        ) {
+            continue;
+        }
+
+        item.triggered_rules.forEach(
+            function(rule) {
+
+                findings.push({
+
+                    dimension:
+                        item.name ||
+                        humanizeText(dimension),
+
+                    rule:
+                        rule.rule,
+
+                    score:
+                        Number(rule.score) || 0
+
+                });
+
+            }
+        );
+
+    }
+
+
+    /* --------------------------------------------------------
+       No findings
+    -------------------------------------------------------- */
+
+    if (findings.length === 0) {
+
+        const item =
+            document.createElement("div");
+
+        item.className = "finding";
+
+        item.innerHTML = `
+            <div class="finding-icon">
+                ✓
+            </div>
+
+            <div class="finding-text">
+                <strong>No significant risk indicators detected.</strong>
+                <br>
+                <small>
+                    The current analysis did not trigger any risk rules.
+                </small>
+            </div>
+        `;
+
+        container.appendChild(item);
+
+        return;
+    }
+
+
+    /* --------------------------------------------------------
+       Prioritize stronger indicators
+       Higher rule scores appear first.
+    -------------------------------------------------------- */
+
+    findings.sort(
+        function(a, b) {
+            return b.score - a.score;
+        }
+    );
+
+
+    /* --------------------------------------------------------
+       Show maximum 5 primary findings
+    -------------------------------------------------------- */
+
+    const visibleFindings =
+        findings.slice(0, 5);
+
+
+    visibleFindings.forEach(
+        function(finding) {
+
+            const item =
+                document.createElement("div");
+
+            item.className = "finding";
+
+
+            const icon =
+                document.createElement("div");
+
+            icon.className =
+                "finding-icon";
+
+            icon.textContent =
+                "⚠";
+
+
+            const text =
+                document.createElement("div");
+
+            text.className =
+                "finding-text";
+
+            text.innerHTML =
+                "<strong>" +
+                humanizeRule(
+                    finding.rule
+                ) +
+                "</strong><br>" +
+                "<small>" +
+                finding.dimension +
+                "</small>";
+
+
+            item.appendChild(icon);
+            item.appendChild(text);
+
+            container.appendChild(item);
+
+        }
+    );
+
+
+    /* --------------------------------------------------------
+       Additional findings indicator
+    -------------------------------------------------------- */
+
+    if (findings.length > 5) {
+
+        const more =
+            document.createElement("p");
+
+        more.className =
+            "additional-findings";
+
+        more.textContent =
+            "+" +
+            (findings.length - 5) +
+            " additional indicators available.";
+
+        container.appendChild(more);
+
+    }
+
+}
+
+
+/* ============================================================
+   RISK PROFILE
+============================================================ */
+
+function renderRiskProfile(data) {
+
+    const container =
+        document.getElementById(
+            "riskProfile"
+        );
+
+
+    container.innerHTML = "";
+
+
+    const dimensions =
+        data.risk_analysis &&
+        data.risk_analysis.dimensions
+            ? data.risk_analysis.dimensions
+            : {};
+
+
+    const dimensionOrder = [
+
+        "organization_identity",
+
+        "opportunity_authenticity",
+
+        "communication_channel",
+
+        "financial",
+
+        "sensitive_data",
+
+        "psychological_pressure",
+
+        "evidence_consistency"
+
+    ];
+
+
+    dimensionOrder.forEach(
+        function(dimensionKey) {
+
+            const item =
+                dimensions[
+                    dimensionKey
+                ];
+
+
+            if (!item) {
+                return;
+            }
+
+
+            const score =
+                Number(
+                    item.score || 0
+                );
+
+
+            const maxScore =
+                Number(
+                    item.max_score || 0
+                );
+
+
+            const percentage =
+                maxScore > 0
+                    ? Math.min(
+                        100,
+                        (
+                            score /
+                            maxScore
+                        ) * 100
+                    )
+                    : 0;
+
+
+            const wrapper =
+                document.createElement(
+                    "div"
+                );
+
+
+            wrapper.className =
+                "risk-profile-item";
+
+
+            const header =
+                document.createElement(
+                    "div"
+                );
+
+
+            header.className =
+                "risk-profile-header";
+
+
+            const name =
+                document.createElement(
+                    "span"
+                );
+
+
+            name.textContent =
+                item.name ||
+                humanizeText(
+                    dimensionKey
+                );
+
+
+            const scoreText =
+                document.createElement(
+                    "strong"
+                );
+
+
+            scoreText.textContent =
+                score +
+                "/" +
+                maxScore;
+
+
+            header.appendChild(
+                name
+            );
+
+
+            header.appendChild(
+                scoreText
+            );
+
+
+            const bar =
+                document.createElement(
+                    "div"
+                );
+
+
+            bar.className =
+                "risk-bar";
+
+
+            const fill =
+                document.createElement(
+                    "div"
+                );
+
+
+            fill.className =
+                "risk-bar-fill";
+
+
+            fill.style.width =
+                percentage +
+                "%";
+
+            if (percentage === 0) {
+                fill.style.background = "#374151";
+            } else if (percentage <= 33) {
+                fill.style.background = "#22C55E";
+            } else if (percentage <= 67) {
+                fill.style.background = "#F59E0B";
+            } else {
+                fill.style.background = "#EF4444";
+}
+
+
+            bar.appendChild(
+                fill
+            );
+
+
+            wrapper.appendChild(
+                header
+            );
+
+
+            wrapper.appendChild(
+                bar
+            );
+
+
+            container.appendChild(
+                wrapper
+            );
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   EXTRACTED EVIDENCE
+============================================================ */
+
+function renderExtractedEvidence(data) {
+
+    const emailList =
+        document.getElementById(
+            "emails"
+        );
+
+
+    const urlList =
+        document.getElementById(
+            "urls"
+        );
+
+
+    emailList.innerHTML =
+        "";
+
+
+    urlList.innerHTML =
+        "";
+
+
+    const evidence =
+        data.extracted_evidence ||
+        {};
+
+
+    const emails =
+        evidence.extracted_emails ||
+        [];
+
+
+    const urls =
+        evidence.extracted_urls ||
+        [];
+
+
+    /* --------------------------------------------------------
+       Emails
+    -------------------------------------------------------- */
+
+    if (
+        emails.length === 0
+    ) {
+
+        emailList.innerHTML =
+            "<li>None detected</li>";
+
+    }
+
+    else {
+
+        emails.forEach(
+            function(email) {
+
+                const li =
+                    document.createElement(
+                        "li"
+                    );
+
+
+                li.textContent =
+                    email;
+
+
+                emailList.appendChild(
+                    li
+                );
+
+            }
+        );
+
+    }
+
+
+    /* --------------------------------------------------------
+       URLs
+    -------------------------------------------------------- */
+
+    if (
+        urls.length === 0
+    ) {
+
+        urlList.innerHTML =
+            "<li>None detected</li>";
+
+    }
+
+    else {
+
+        urls.forEach(
+            function(url) {
+
+                const li =
+                    document.createElement(
+                        "li"
+                    );
+
+
+                li.textContent =
+                    url;
+
+
+                urlList.appendChild(
+                    li
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   VERIFICATION PATHWAY
+============================================================ */
+
+function renderVerificationPathway(data) {
+
+    const container =
+        document.getElementById(
+            "verificationPathway"
+        );
+
+    container.innerHTML = "";
+
+    const pathway =
+        data.verification_pathway ||
+        {};
+
+    let actions = [];
+
+
+    /* --------------------------------------------------------
+       Get pathway actions
+    -------------------------------------------------------- */
+
+    if (
+        Array.isArray(
+            pathway.recommended_actions
+        )
+    ) {
+
+        actions =
+            pathway.recommended_actions;
+
+    }
+
+    else if (
+        Array.isArray(
+            pathway.priority_checks
+        )
+    ) {
+
+        actions =
+            pathway.priority_checks;
+
+    }
+
+    else if (
+        Array.isArray(pathway)
+    ) {
+
+        actions =
+            pathway;
+
+    }
+
+
+    /* --------------------------------------------------------
+       No actions
+    -------------------------------------------------------- */
+
+    if (
+        actions.length === 0
+    ) {
+
+        const empty =
+            document.createElement(
+                "p"
+            );
+
+        empty.className =
+            "pathway-empty";
+
+        empty.textContent =
+            "No additional verification actions are currently required.";
+
+        container.appendChild(
+            empty
+        );
+
+        return;
+
+    }
+
+
+    /* --------------------------------------------------------
+       Show maximum 5 priority actions
+    -------------------------------------------------------- */
+
+    const visibleActions =
+        actions.slice(0, 5);
+
+
+    const pathwayCard =
+        document.createElement(
+            "div"
+        );
+
+    pathwayCard.className =
+        "pathway-card";
+
+
+    const list =
+        document.createElement(
+            "ol"
+        );
+
+
+    visibleActions.forEach(
+        function(action) {
+
+            const li =
+                document.createElement(
+                    "li"
+                );
+
+            let text = "";
+
+
+            if (
+                typeof action === "string"
+            ) {
+
+                text =
+                    action;
+
+            }
+
+            else if (
+                typeof action === "object" &&
+                action !== null
+            ) {
+
+                text =
+                    action.action ||
+                    action.description ||
+                    action.check ||
+                    action.text ||
+                    "";
+
+            }
+
+
+            if (!text) {
+
+                text =
+                    JSON.stringify(
+                        action
+                    );
+
+            }
+
+
+            li.textContent =
+                humanizePathwayText(
+                    text
+                );
+
+
+            list.appendChild(
+                li
+            );
+
+        }
+    );
+
+
+    pathwayCard.appendChild(
+        list
+    );
+
+
+    container.appendChild(
+        pathwayCard
+    );
+
+
+    /* --------------------------------------------------------
+       Additional actions indicator
+    -------------------------------------------------------- */
+
+    if (
+        actions.length > 5
+    ) {
+
+        const more =
+            document.createElement(
+                "p"
+            );
+
+        more.className =
+            "additional-pathway";
+
+        more.textContent =
+            "+" +
+            (
+                actions.length - 5
+            ) +
+            " additional verification checks available.";
+
+        container.appendChild(
+            more
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   VERIFICATION STATUS
+============================================================ */
+
+function getVerificationStatusFlexible(
+    verification,
+    possibleKeys,
+    evidenceType = "evidence"
+) {
+
+    let item = null;
+
+
+    for (
+        const key of possibleKeys
+    ) {
+
+        if (
+            verification[key] !== undefined &&
+            verification[key] !== null
+        ) {
+
+            item = verification[key];
+
+            break;
+        }
+
+    }
+
+
+    /*
+       No verification object exists.
+       This is different from a contradiction or
+       an unverified piece of evidence.
+    */
+
+    if (item === null) {
+
+        if (evidenceType === "email") {
+
+            return {
+                label: "— No recruiter email detected",
+                className: "status-neutral"
+            };
+
+        }
+
+
+        if (evidenceType === "url") {
+
+            return {
+                label: "— No application URL detected",
+                className: "status-neutral"
+            };
+
+        }
+
+
+        return {
+            label: "— Not detected",
+            className: "status-neutral"
+        };
+
+    }
+
+
+    let status = null;
+
+
+    if (
+        typeof item === "object" &&
+        item !== null
+    ) {
+
+        status =
+            item.status ||
+            item.result ||
+            item.verdict;
+
+    }
+
+    else {
+
+        status = item;
+
+    }
+
+
+    /*
+       A verification object exists but has no
+       meaningful status.
+    */
+
+    if (!status) {
+
+        return {
+
+            label: "⚠ Unverified",
+
+            className: "status-unverified"
+
+        };
+
+    }
+
+
+    status =
+        String(status)
+            .trim()
+            .toUpperCase();
+
+
+    if (
+        status === "SUPPORTED"
+    ) {
+
+        return {
+
+            label: "✓ Supported",
+
+            className: "status-supported"
+
+        };
+
+    }
+
+
+    if (
+        status === "CONTRADICTED"
+    ) {
+
+        return {
+
+            label: "✕ Contradicted",
+
+            className: "status-contradicted"
+
+        };
+
+    }
+
+
+    return {
+
+        label: "⚠ Unverified",
+
+        className: "status-unverified"
+
+    };
+
+}
+
+/* ============================================================
+   HUMANIZE RULE
+============================================================ */
+
+function humanizeRule(rule) {
+
+    const map = {
+
+        contact_conflict:
+            "Recruiter contact conflicts with the verified organization channel",
+
+        application_url_mismatch:
+            "Application URL is inconsistent with the organization",
+
+        registration_fee:
+            "Registration fee requested",
+
+        urgent_payment:
+            "Urgent payment pressure detected",
+
+        sensitive_id_before_verification:
+            "Sensitive identity information requested before verification",
+
+        bank_information:
+            "Bank information requested",
+
+        otp_or_password:
+            "OTP or password requested",
+
+        card_credentials:
+            "Card credentials requested",
+
+        evidence_chain_unverified:
+            "Evidence chain is not independently verified",
+
+        major_contradiction:
+            "Major evidence contradiction",
+
+        opportunity_not_found:
+            "Specific opportunity was not found on the official source",
+
+        opportunity_details_mismatch:
+            "Opportunity details conflict with the official source",
+
+        unofficial_email:
+            "Recruiter email is not an official organization channel",
+
+        recruiter_unverified:
+            "Recruiter identity is not independently verified",
+
+        lookalike_domain:
+            "Suspicious or look-alike domain detected",
+
+        mild_urgency:
+            "Urgency language detected",
+
+        strong_urgency:
+            "Strong urgency detected",
+
+        scarcity:
+            "Scarcity language detected",
+
+        threat:
+            "Threat or consequence language detected",
+
+        exaggerated_reward:
+            "Exaggerated reward detected",
+
+        authority_pressure:
+            "Authority pressure detected",
+
+        secrecy:
+            "Secrecy language detected",
+
+        multiple_pressure_methods:
+            "Multiple pressure methods detected",
+
+        multiple_inconsistencies:
+            "Multiple evidence inconsistencies detected",
+
+        unverified_refund_claim:
+            "Refund claim could not be independently verified",
+
+        unclear_fee:
+            "Payment or fee requirement is unclear",
+
+        personal_payment_account:
+            "Payment directed to a personal account",
+
+        excessive_data_request:
+            "Excessive personal information requested"
+
+    };
+
+
+    return (
+        map[rule] ||
+        humanizeText(rule)
+    );
+
+}
+
+
+/* ============================================================
+   HUMANIZE CRITICAL FLAG
+============================================================ */
+
+function humanizeFlag(flag) {
+
+    const map = {
+
+        otp_or_password:
+            "OTP or password requested",
+
+        card_credentials:
+            "Card credentials requested",
+
+        official_contradiction:
+            "Official source contradicts the opportunity",
+
+        lookalike_domain:
+            "Suspicious or look-alike domain detected",
+
+        major_contradiction:
+            "Major contradiction in the available evidence"
+
+    };
+
+
+    return (
+        map[flag] ||
+        humanizeText(flag)
+    );
+
+}
+
+
+/* ============================================================
+   TEXT FORMATTING
+============================================================ */
+
+function humanizeText(text) {
+
+    return String(text)
+        .replace(
+            /_/g,
+            " "
+        )
+        .replace(
+            /\b\w/g,
+            function(letter) {
+
+                return letter.toUpperCase();
+
+            }
+        );
+
+}
+
+
+/* ============================================================
+   PATHWAY TEXT
+   We intentionally preserve sentence structure here.
+============================================================ */
+
+function humanizePathwayText(text) {
+
+    return String(text)
+        .replace(
+            /\s+/g,
+            " "
+        )
+        .trim();
+
+}
+
+
+/* ============================================================
+   RECOMMENDATION
+============================================================ */
+
+function getRecommendationText(
+    recommendation
+) {
+
+    if (
+        recommendation === "PROCEED"
+    ) {
+
+        return "🟢 PROCEED";
+
+    }
+
+
+    if (
+        recommendation === "VERIFY"
+    ) {
+
+        return "🟡 VERIFY";
+
+    }
+
+
+    if (
+        recommendation === "AVOID"
+    ) {
+
+        return "🔴 AVOID";
+
+    }
+
+
+    return recommendation;
+
+}
+
+
+/* ============================================================
+   PLAIN RECOMMENDATION FOR DECISION BASIS
+============================================================ */
+
+function getRecommendationPlainText(
+    recommendation
+) {
+
+    if (
+        recommendation === "PROCEED"
+    ) {
+
+        return "Proceed — current evidence supports the opportunity.";
+
+    }
+
+
+    if (
+        recommendation === "VERIFY"
+    ) {
+
+        return "Verify — unresolved evidence requires further checking.";
+
+    }
+
+
+    if (
+        recommendation === "AVOID"
+    ) {
+
+        return "Avoid — serious risk indicators or contradictions were detected.";
+
+    }
+
+
+    return "Assessment unavailable.";
+
+}
+
+
+/* ============================================================
+   ERROR
+============================================================ */
+
+function showError(message) {
+
+    document
+        .getElementById("errorMessage")
+        .textContent =
+            message;
+
+
+    document
+        .getElementById("errorBox")
+        .style.display =
+            "block";
+
+}
+
+</script>
+
+</body>
+
+</html>
