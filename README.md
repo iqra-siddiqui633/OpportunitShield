@@ -2,8 +2,6 @@ OpportunityShield
 
 Student Digital Opportunity Fraud Verification System
 
-🌐 **Live Demo:** [View FinDash Pro](https://iqra-siddiqui633.github.io/OpportunitShield/)
-
 OpportunityShield is a student-focused web application prototype designed to help assess potentially fraudulent job, scholarship, internship, and course opportunities.
 
 Problem Statement
